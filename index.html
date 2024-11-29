@@ -16,6 +16,22 @@
     <script src="js/moment.min.js"></script>
     <script src="js/select2.4.1.0.js"></script>
     <script src="js/swal2.11.14.js"></script>
+    <style>
+      #tbl2 thead th::before {
+    content: '';
+    width: 10px;
+    height: 12px;
+    background-color: #00000000;
+    position: absolute;
+    top: -48px;
+    right: 2px;
+    rotate: 140deg;
+    border-right: solid 2px black;
+}
+#tbl2 thead{
+  transform: translateX(50px);
+}
+    </style>
   </head>
 
   <body>
@@ -279,8 +295,23 @@ function reset (){
         "L00036": "LASEGAR SLIM LECI",
         "L00035": "LASEGAR SLIM JERUK",
         "L00020": "LASEGAR PLUS DUS ORANGE",
+        "00":"-",
+
+        "B00015": "BALSEM 20GR",
+        "B00016": "BALSEM 36GR",
+        "0000":"Enao Slim",
         "Z00001": "LIANG THE CAP BADAK ",
         "A00001": "ACARAKI",
+        "P00001": "PILCHIKIT",
+        "O00001": "OBIDA 75ML",
+        "O00002": "OBIDA 150ML",
+        "O00003": "OBIDA 300ML",
+        "S00002": "SPO 3ML",
+        "S00003": "SPO 7ML",
+        "S00004": "SPO 25ML",
+        "0001":"Salep Kulit",
+        "000":"-",
+
         "M00016": "MILKBARN SACHET",
         "M00013": "MILK KALENG 370 GR",
         "M00012": "MILKBARN 500GR",
@@ -293,22 +324,16 @@ function reset (){
         "O00008": "OISHIIYORI WALET",
         "O00006": "OISHIIYORI TEHBUNGA",
         "O00009": "OISHIIYORI KUNDUR",
-        "O00019": "OISHIIYORI LECI",
         "E00010": "ENAKI",
-        "B00015": "BALSEM 20GR",
-        "B00016": "BALSEM 36GR",
-        "P00001": "PILCHIKIT",
-        "O00001": "OBIDA 75ML",
-        "O00002": "OBIDA 150ML",
-        "O00003": "OBIDA 300ML",
-        "S00002": "SPO 3ML",
-        "S00003": "SPO 7ML",
-        "S00004": "SPO 25ML",
         "O00020": "OISHIYORI CINCAU 270ML",
         "O00021": "OISHIYORI WALET 270ML",
+        "000":"-",
+
         "L00046": "LARISTA LATTE",
         "L00047": "LARISTA CAPPUCCINO",
-        "L00048": "LARISTA MOCHA"
+        "L00048": "LARISTA MOCHA",
+        "O00019": "OISHIIYORI LECI",
+
       },
       retail: {
         "L00009": "3219",
@@ -477,7 +502,7 @@ function reset (){
       let tableContent = ''
       let thead = ''
       for (const[key, value] of Object.entries(brands.name)) {
-          thead += `<th style="writing-mode:vertical-rl;rotate:180deg" class="text-start">${value}</th>`
+          thead += `<th style="writing-mode:vertical-rl;rotate:220deg" class="text-start">${value}</th>`
         }
         $('#tbl2 thead').html(thead)
       for(let i = 0; i < jumlah; i++){
