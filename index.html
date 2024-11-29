@@ -1,51 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Retailer</title>
-  <link rel="stylesheet" href="css/air-datepicker.css" />
-  <link rel="stylesheet" href="css/bs.css" />
-  <link rel="stylesheet" href="css/datatables.min.css" />
-  <link rel="stylesheet" href="css/select2.4.1.0.css" />
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="js/jquery.3.3.1.min.js"></script>
-  <script src="js/air-datepicker.js"></script>
-  <script src="js/datatables.min.js"></script>
-  <script src="js/moment.min.js"></script>
-  <script src="js/select2.4.1.0.js"></script>
-  <script src="js/swal2.11.14.js"></script>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retailer</title>
+    <link rel="stylesheet" href="css/air-datepicker.css" />
+    <link rel="stylesheet" href="css/bs.css" />
+    <link rel="stylesheet" href="css/datatables.min.css" />
+    <link rel="stylesheet" href="css/select2.4.1.0.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/jquery.3.3.1.min.js"></script>
+    <script src="js/air-datepicker.js"></script>
+    <script src="js/datatables.min.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/select2.4.1.0.js"></script>
+    <script src="js/swal2.11.14.js"></script>
+  </head>
 
-<body>
+  <body>
 
-  <h2 class="text-center">Retailer</h2>
-  <div class="card m-3">
-    <div class="card-body">
-      <div class="row mb-3">
-        <div class="col-3">
-          <label for="select_retailer" class="form-label">Pilih Outlet</label>
-          <select name="" id="select_retailer" class="form-select"></select>
+    <h2 class="text-center">Retailer</h2>
+    <div class="card m-3">
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-6">
+            <label for="select_retailer" class="form-label">Pilih Outlet</label>
+            <select name id="select_retailer" class="form-select"></select>
+          </div>
+          <div class="col-6">
+            <label for="jumlah" class="form-label">Jumlah Baris</label>
+            <input type="number" name="jumlah" id="jumlah" class="form-control"
+              value="1">
+          </div>
+          <div class="col-9 d-none">
+            <label for="select_brand" class="form-label">Pilih Barang</label>
+            <select name id="select_brand" class="form-select"></select>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button onclick="reset()"
+              class="btn btn-sm btn-danger my-2 me-4">Reset</button>
+            <button onclick="proses()"
+              class="btn btn-sm btn-primary my-2">Proses</button>
+          </div>
         </div>
-        <div class="col-9">
-          <label for="select_brand" class="form-label">Pilih Barang</label>
-          <select name="" id="select_brand" class="form-select"></select>
+        <div class="table-responsive">
+          <table id="tbl2" class="table table-bordered table-hover">
+            <thead></thead>
+            <tbody>
+            </tbody>
+          </table>
         </div>
-        <div class="d-flex">
-          <button onclick="proses()" class="btn btn-sm btn-primary ms-auto m-2">Proses</button>
+        <div class="table-responsive">
+          <table id="datatable" class="table table-bordered table-hover">
+            <tbody>
+            </tbody>
+          </table>
         </div>
+        <div class="py-5"><hr></div>
       </div>
-      <table id="datatable" class="table table-bordered table-hover">
-        <tbody>
-
-        </tbody>
-      </table>
     </div>
-  </div>
 
+    <script>
 
-  <script>
+function reset (){
+  $('#tbl2 thead').html('');
+  $('#tbl2 tbody').html('');
+  tabl.clear().draw();
+};
+
     var outlets = {
       code: {
         "ANUGERAH": "A00775",
@@ -428,22 +451,44 @@
       };
     };
 
-    function proses() {
+    function refreshTbl (){
+      let jumlah = $('#jumlah').val();
       let outl = getR();
-      let ids = $('#select_brand').val();
       let tableContent = []
-      let filter = Object.entries(brands.name).filter(([key, value]) => ids.includes(key));
-      filter.map(([key, value]) => {
+     $('#tbl2 tbody input').map(function (idx,el) {
+      if($(el).val()!=0||$(el).val()!=""){
+        let brcode = $(el).attr("data-code");
         tableContent.push({
           "ko": outl.code,
           "no": outl.name,
           "ad": outl.address,
-          "kb": key,
-          "nb": value,
-          "jb": 0
+          "kb": brcode,
+          "nb": brands.name[brcode],
+          "jb": $(el).val()
         })
-      })
+      }
+      }).get();
       tabl.clear().rows.add(tableContent).draw();
+    };
+
+    function proses() {
+      let jumlah = $('#jumlah').val();
+      let outl = getR();
+      let tableContent = ''
+      let thead = ''
+      for (const[key, value] of Object.entries(brands.name)) {
+          thead += `<th style="writing-mode:vertical-rl;rotate:180deg" class="text-start">${value}</th>`
+        }
+        $('#tbl2 thead').html(thead)
+      for(let i = 0; i < jumlah; i++){
+        console.log(jumlah);
+        tableContent += `<tr>`
+        for (const[key, value] of Object.entries(brands.name)) {
+          tableContent += `<td style="padding:2px"><input title="${value}" type="text" data-code="${key}" value="" style="min-width:50px" class="form-control"></td>`
+        }
+        tableContent += `</tr>`
+      }
+      $('#tbl2 tbody').html(tableContent)
     };
     window.addEventListener("load", function (e) {
       tabl = $('#datatable').DataTable({
@@ -451,8 +496,17 @@
         buttons: [{
           extend: '',
           text: 'Salin',
+          className: 'btn btn-primary btn-sm',
           action: function (e, dt, node, config) {
             copyTableDataToClipboard(tabl);
+          }
+        },
+        {
+          extend: '',
+          text: 'Refresh',
+          className: 'btn btn-primary btn-sm',
+          action: function (e, dt, node, config) {
+            refreshTbl();
           }
         }],
         data: [],
@@ -510,7 +564,7 @@
             data: 'jb',
             title: 'Jumlah Barang',
             render: (data, type, row, meta) => {
-              return `<div class="d-none">${data}</div><input type="number" class="form-control" onchange="$(this).siblings('div').text($(this).val())" value=""> `
+              return `<div class="d-none">${data}</div><input type="number" class="form-control" onchange="$(this).siblings('div').text($(this).val())" value="${data}"> `
             }
           },
         ]
@@ -1314,6 +1368,6 @@
       }, 400);
     }
   </script>
-</body>
+  </body>
 
 </html>
