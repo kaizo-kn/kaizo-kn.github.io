@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Retailer</title>
+  <link rel="stylesheet" href="css/air-datepicker.css" />
+  <link rel="stylesheet" href="css/bs.css" />
+  <link rel="stylesheet" href="css/datatables.min.css" />
+  <link rel="stylesheet" href="css/select2.4.1.0.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/jquery.3.3.1.min.js"></script>
+  <script src="js/air-datepicker.js"></script>
+  <script src="js/datatables.min.js"></script>
+  <script src="js/moment.min.js"></script>
+  <script src="js/select2.4.1.0.js"></script>
+  <script src="js/swal2.11.14.js"></script>
+</head>
+
+<body>
+
+  <h2 class="text-center">Retailer</h2>
+  <div class="card m-3">
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-3">
+          <label for="select_retailer" class="form-label">Pilih Outlet</label>
+          <select name="" id="select_retailer" class="form-select"></select>
+        </div>
+        <div class="col-9">
+          <label for="select_brand" class="form-label">Pilih Barang</label>
+          <select name="" id="select_brand" class="form-select"></select>
+        </div>
+        <div class="d-flex">
+          <button onclick="proses()" class="btn btn-sm btn-primary ms-auto m-2">Proses</button>
+        </div>
+      </div>
+      <table id="datatable" class="table table-bordered table-hover">
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <script>
+    var outlets = {
+      code: {
+        "ANUGERAH": "A00775",
+        "ASIA BEST": "A03675",
+        "ANEKA SUSU": "L00835",
+        "ASIA JAYA MART": "A04899",
+        "BAHAGIA I": "B01626",
+        "BAHAGIA II": "B01627",
+        "BINA JOHOR": "B00947",
+        "BINA SWALAYAN": "B00169",
+        "BINTANG MART": "B01756",
+        "BRASTAGI CAMBRIDGE": "B01657",
+        "BRASTAGI GATSU": "B01706",
+        "BRASTAGI MANHATTAN": "B01894",
+        "BRASTAGI RANTAU PRAPAT": "B01390",
+        "BRASTAGI TIARA": "B01790",
+        "CELLO GRAHA": "",
+        "CELLO JOHOR": "",
+        "CEMARA PASAR BUAH": "P01425",
+        "CHYKES": "C00005",
+        "CV.CELLO MAKMUR CEMERLANG": "C00601",
+        "CV.CELLO SUKSES MANDIRI": "C00570",
+        "DELI BARU": "D00216",
+        "DELIMAS SWALAYAN": "D00018",
+        "DIAMOND": "D00073",
+        "GLORIA SWALAYAN": "G01034",
+        "HALL MART": "",
+        "HAPPY": "H00872",
+        "IDO SWALAYAN": "I00582",
+        "IRAMA HOUSEWARE SWALAYAN": "I01233",
+        "IRIAN AKSARA": "",
+        "IRIAN KARYA": "I01228",
+        "IRIAN KISARAN": "L00895",
+        "IRIAN MARELAN": "L00551",
+        "IRIAN SUPERMARKET BAHAGIA": "I00430",
+        "IRIAN TAMORA": "I00085",
+        "IRIAN TEMBUNG": "I00402",
+        "IRIAN THAMRIN": "",
+        "JAYA BARU": "B00763",
+        "K.M.SOLID PERKASA,CV": "K00878",
+        "K3 MART": "K004092",
+        "KEMANG INDAH": "K02450",
+        "LUCKY JAYA": "",
+        "LUCKY SWALAYAN": "L00512",
+        "MB KRAKATAU": "M00315",
+        "MAKARO MART": "",
+        "MANDIRI BINJAI": "",
+        "MANDIRI EXPRESS": "",
+        "MAXIMART": "M00970",
+        "MB DENAI": "M01503",
+        "MB GLUGUR": "M00043",
+        "MB KAPTEN MUSLIM": "",
+        "MB KATAMSO": "",
+        "MB MANGKUBUMI": "M00044",
+        "MB MARENDAL": "M00046",
+        "MB MARTUBUNG": "M00305",
+        "MB MEDAN MALL": "M01748",
+        "MB MERAK JINGGA": "M01766",
+        "MB MMTC": "",
+        "MB RINGROAD": "M02955",
+        "MB SUJONO": "M01413",
+        "MB THAMRIN": "",
+        "METRO": "M01979",
+        "METRO SIANTAR": "",
+        "OKE": "O00062",
+        "OKE SIMALINGKAR": "O00080",
+        "OKE TAMORA": "O000112",
+        "PLANGKARAYA SEMI MART": "P00344",
+        "PONDOK INDAH PASAR BUAH": "P01190",
+        "PT.DIAMOND SUKSES WIRAUSAHA": "D00634",
+        "PT.JIMART SUKSES ABADI": "J01181",
+        "PT.MEDAN BUAH SEGAR": "M02606",
+        "R&R": "R00657",
+        "REFA": "R01718",
+        "S 24": "S02273",
+        "SINURAYA": "",
+        "SMARCO SUPERSTORE": "S02983",
+        "SMART SHOP MM WARALABA": "S01226",
+        "STAR SWALAYAN": "S00401",
+        "SUN": "S00030",
+        "SUPER SETIA SAGITA": "S00032",
+        "SURYA,SW": "S00017",
+        "SUZUYA": "",
+        "SUZUYA DC": "S05014",
+        "SUZUYA HOME GROSIR": "S05054",
+        "SUZUYA KATAMSO": "S00114",
+        "SUZUYA MALL": "S04676",
+        "SUZUYA MARELAN": "S02519",
+        "SUZUYA SP 5": "S04617",
+        "SUZUYA TAMORA": "S01464",
+        "TRANSMART": "",
+        "U MART": "U00346",
+        "UPN": "Y00355",
+        "VERA": "S01984",
+        "VRESS MART": "",
+        "YUKI": ""
+      },
+      addr: {
+        "ANUGERAH": "JL. Marelan Raya",
+        "ASIA BEST": "Zein Hamid",
+        "ANEKA SUSU": "Platina raya",
+        "ASIA JAYA MART": "JL. Krakatau Ujung",
+        "BAHAGIA I": "JL. Ngumban Surbakti",
+        "BAHAGIA II": "JL. Jamin Ginting",
+        "BINA JOHOR": "JL. Karya Wisata",
+        "BINA SWALAYAN": "Setiabudi",
+        "BINTANG MART": "Jln.Platina Raya",
+        "BRASTAGI CAMBRIDGE": "S.Parman",
+        "BRASTAGI GATSU": "Gatot Subroto",
+        "BRASTAGI MANHATTAN": "Gatot Subroto",
+        "BRASTAGI RANTAU PRAPAT": "Rantau Prapat",
+        "BRASTAGI TIARA": "Cut Mutia",
+        "CELLO GRAHA": "Sumarsono",
+        "CELLO JOHOR": "JL. Karya Wisata",
+        "CEMARA PASAR BUAH": "Cemara",
+        "CHYKES": "JL. Karya Wisata",
+        "CV.CELLO MAKMUR CEMERLANG": "JL. Karya Wisata",
+        "CV.CELLO SUKSES MANDIRI": "Sumarsono",
+        "DELI BARU": "JL. Besar Deli Tua",
+        "DELIMAS SWALAYAN": "Pakam",
+        "DIAMOND": "JL. Sumarsono",
+        "GLORIA SWALAYAN": "Gatot Subroto",
+        "HALL MART": "Patumbak",
+        "HAPPY": "JL. Setia Makmur",
+        "IDO SWALAYAN": "JL. Tembakau Raya",
+        "IRAMA HOUSEWARE SWALAYAN": "JL. Merak",
+        "IRIAN AKSARA": "Jl.Aksara",
+        "IRIAN KARYA": "Karya",
+        "IRIAN KISARAN": "Kisaran",
+        "IRIAN MARELAN": "Marelan Raya",
+        "IRIAN SUPERMARKET BAHAGIA": "JL. HM. Joni",
+        "IRIAN TAMORA": "JL Irian",
+        "IRIAN TEMBUNG": "Medan Batang Kuis",
+        "IRIAN THAMRIN": "Thamrin",
+        "JAYA BARU": "Karya Jaya",
+        "K.M.SOLID PERKASA,CV": "JL. Sunggal",
+        "K3 MART": "JL. Sei. Kera",
+        "KEMANG INDAH": "Sm. Raja",
+        "LUCKY JAYA": "Brig.Katamso",
+        "LUCKY SWALAYAN": "Cemara",
+        "MB KRAKATAU": "JL. Krakatau Ujung",
+        "MAKARO MART": "JL.Pertahanan/Patumbak",
+        "MANDIRI BINJAI": "Binjai",
+        "MANDIRI EXPRESS": "Amir Hamzah",
+        "MAXIMART": "Thamrin",
+        "MB DENAI": "Denai",
+        "MB GLUGUR": "Yos Sudarso",
+        "MB KAPTEN MUSLIM": "Kapten Muslim",
+        "MB KATAMSO": "Zein Hamid",
+        "MB MANGKUBUMI": "JL. Mangkubumi",
+        "MB MARENDAL": "JL. Tritura",
+        "MB MARTUBUNG": "Yos Sudarso",
+        "MB MEDAN MALL": "MT.Haryono",
+        "MB MERAK JINGGA": "JL. Merak Jingga",
+        "MB MMTC": "Komplek MMTC",
+        "MB RINGROAD": "Ringroad",
+        "MB SUJONO": "Letda Sujono",
+        "MB THAMRIN": "Thamrin",
+        "METRO": "Dr.Mansyur",
+        "METRO SIANTAR": "JL. Merdeka",
+        "OKE": "JL. Gaperta Ujung",
+        "OKE SIMALINGKAR": "JL. Jamin Ginting",
+        "OKE TAMORA": "JL. Dahlan Tanjung",
+        "PLANGKARAYA SEMI MART": "JL. Palangkaraya",
+        "PONDOK INDAH PASAR BUAH": "JL. Setia Budi ",
+        "PT.DIAMOND SUKSES WIRAUSAHA": "JL. Komplek Mercy",
+        "PT.JIMART SUKSES ABADI": "JL. W. Iskandar Komp. MMTC",
+        "PT.MEDAN BUAH SEGAR": "JL. Wahidin",
+        "R&R": "JL. Medan - Belawan",
+        "REFA": "JL.Pertahanan/Patumbak",
+        "S 24": "JL. Adam Malik",
+        "SINURAYA": "Simalingkar",
+        "SMARCO SUPERSTORE": "JL. Ringroad/Gagak Hitam",
+        "SMART SHOP MM WARALABA": "JL. TANAH 600 MARELAN RAYA",
+        "STAR SWALAYAN": "JL. Platina Raya",
+        "SUN": "Brig.Katamso",
+        "SUPER SETIA SAGITA": "JL. Setia Budi Komp. Tasbih",
+        "SURYA,SW": "JL. Jamin Ginting",
+        "SUZUYA": "",
+        "SUZUYA DC": "JL. TB. Simatupang",
+        "SUZUYA HOME GROSIR": "JL .MT. Haryono",
+        "SUZUYA KATAMSO": "Brig.Katamso",
+        "SUZUYA MALL": "Banda Aceh",
+        "SUZUYA MARELAN": "Marelan Raya",
+        "SUZUYA SP 5": "Banda Aceh",
+        "SUZUYA TAMORA": "Tanjung Morawa",
+        "TRANSMART": "Gatot Subroto",
+        "U MART": "JL .Platina Raya",
+        "UPN": "Bukit Barisan",
+        "VERA": "JL. Bungalau",
+        "VRESS MART": "JL. Adi Sucipto",
+        "YUKI": "Thamrin"
+      }
+    }
+    var brands = {
+      name: {
+        "L00009": "LASEGAR BOTOL 200 ML",
+        "L00010": "LASEGAR BOTOL 500 ML",
+        "L00016": "LASEGAR KALENG JERUK",
+        "L00014": "LASEGAR KALENG LECI",
+        "L00013": "LASEGAR KALENG JAMBU",
+        "L00017": "LASEGAR KALENG JERUK NIPIS",
+        "L00018": "LASEGAR KALENG STRAWBERRY",
+        "L00015": "LASEGAR KALENG MELON",
+        "L00038": "LASEGAR TWIST LEMON",
+        "L00037": "LASEGAR TWIST JERUKLEMON",
+        "L00040": "LASEGAR TWIST LECILEMON",
+        "L00036": "LASEGAR SLIM LECI",
+        "L00035": "LASEGAR SLIM JERUK",
+        "L00020": "LASEGAR PLUS DUS ORANGE",
+        "Z00001": "LIANG THE CAP BADAK ",
+        "A00001": "ACARAKI",
+        "M00016": "MILKBARN SACHET",
+        "M00013": "MILK KALENG 370 GR",
+        "M00012": "MILKBARN 500GR",
+        "M00014": "MILKBARN 500GR COKLAT",
+        "M00017": "MILK BARN 1.000GR KLNG",
+        "M00018": "MILK BARN 1.000GR BANTAL",
+        "M00019": "MILK BARN 2.500GR BANTAL",
+        "M00020": "MILKBARN STERIL CAP KOALA",
+        "O00007": "OISHIIYORI CINCAU",
+        "O00008": "OISHIIYORI WALET",
+        "O00006": "OISHIIYORI TEHBUNGA",
+        "O00009": "OISHIIYORI KUNDUR",
+        "O00019": "OISHIIYORI LECI",
+        "E00010": "ENAKI",
+        "B00015": "BALSEM 20GR",
+        "B00016": "BALSEM 36GR",
+        "P00001": "PILCHIKIT",
+        "O00001": "OBIDA 75ML",
+        "O00002": "OBIDA 150ML",
+        "O00003": "OBIDA 300ML",
+        "S00002": "SPO 3ML",
+        "S00003": "SPO 7ML",
+        "S00004": "SPO 25ML",
+        "O00020": "OISHIYORI CINCAU 270ML",
+        "O00021": "OISHIYORI WALET 270ML",
+        "L00046": "LARISTA LATTE",
+        "L00047": "LARISTA CAPPUCCINO",
+        "L00048": "LARISTA MOCHA"
+      },
+      retail: {
+        "L00009": "3219",
+        "L00010": "6549",
+        "L00016": "5883",
+        "L00014": "5883",
+        "L00013": "5883",
+        "L00017": "5883",
+        "L00018": "5883",
+        "L00015": "5883",
+        "L00038": "5883",
+        "L00037": "5883",
+        "L00040": "5883",
+        "L00036": "5106",
+        "L00035": "5106",
+        "L00020": "9213",
+        "Z00001": "5772",
+        "A00001": "9435",
+        "M00016": "7200",
+        "M00013": "10323",
+        "M00012": "12200",
+        "M00014": "12500",
+        "M00017": "24000",
+        "M00018": "25000",
+        "M00019": "61500",
+        "M00020": "8880",
+        "O00007": "4050",
+        "O00008": "4300",
+        "O00006": "4050",
+        "O00009": "4050",
+        "O00019": "4050",
+        "E00010": "3750",
+        "B00015": "9879",
+        "B00016": "17871",
+        "P00001": "41292",
+        "O00001": "26529",
+        "O00002": "48396",
+        "O00003": "73926",
+        "S00002": "14985",
+        "S00003": "25130",
+        "S00004": "74220",
+        "O00020": "3552",
+        "O00021": "3552",
+        "L00046": " 6.105 ",
+        "L00047": " 6.105 ",
+        "L00048": " 6.105"
+      },
+      grosir: {
+        "L00009": "3122,43",
+        "L00010": "6352,53",
+        "L00016": "5706,51",
+        "L00014": "5706,51",
+        "L00013": "5706,51",
+        "L00017": "5706,51",
+        "L00018": "5706,51",
+        "L00015": "5706,51",
+        "L00038": "5706,51",
+        "L00037": "5706,51",
+        "L00040": "5706,51",
+        "L00036": "4952,82",
+        "L00035": "4952,82",
+        "L00020": "8936,61",
+        "Z00001": "5772",
+        "A00001": "9435",
+        "M00016": "6984",
+        "M00013": "10323",
+        "M00012": "11834",
+        "M00014": "12125",
+        "M00017": "23280",
+        "M00018": "24250",
+        "M00019": "59655",
+        "M00020": "",
+        "O00007": "3928,5",
+        "O00008": "4171",
+        "O00006": "3928,5",
+        "O00009": "3928,5",
+        "O00019": "3928,5",
+        "E00010": "3637,5",
+        "B00015": "9879",
+        "B00016": "17871",
+        "P00001": "39227,4",
+        "O00001": "25202,55",
+        "O00002": "45976,2",
+        "O00003": "70229,7",
+        "S00002": "14235,75",
+        "S00003": "23873,5",
+        "S00004": "70509",
+        "O00020": "3445,44",
+        "O00021": "3445,44",
+        "L00046": "",
+        "L00047": "",
+        "L00048": ""
+      }
+    }
+    var LAST_EL = false;
+    var DEVTOOLS_ACTIVATED = false;
+    var WAITVIEW = false;
+    var LAST_ID = false;
+
+    function copyTableDataToClipboard(table) {
+      var data = [];
+      var rows = document.querySelectorAll('#datatable tbody tr');
+      for (var i = 0; i < rows.length; i++) {
+        var row = [];
+        var cols = rows[i].querySelectorAll('td>div');
+        for (var j = 0; j < cols.length; j++) {
+          row.push(cols[j].textContent);
+        }
+        data.push(row.join("\t"));
+      }
+      var csvContent = data.join("\n");
+      var textArea = document.createElement("textarea");
+      textArea.value = csvContent;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      Toast.fire({
+        icon: 'success',
+        title: 'Data berhasil disalin'
+      })
+    };
+    var tabl = false
+
+    function getR() {
+      let id = $("#select_retailer").val();
+      let addr = outlets.addr[id];
+      let name = id
+      let code = outlets.code[id]
+      return {
+        code: code,
+        address: addr,
+        name: name
+      };
+    };
+
+    function proses() {
+      let outl = getR();
+      let ids = $('#select_brand').val();
+      let tableContent = []
+      let filter = Object.entries(brands.name).filter(([key, value]) => ids.includes(key));
+      filter.map(([key, value]) => {
+        tableContent.push({
+          "ko": outl.code,
+          "no": outl.name,
+          "ad": outl.address,
+          "kb": key,
+          "nb": value,
+          "jb": 0
+        })
+      })
+      tabl.clear().rows.add(tableContent).draw();
+    };
+    window.addEventListener("load", function (e) {
+      tabl = $('#datatable').DataTable({
+        ...dtableSettingsDefault,
+        buttons: [{
+          extend: '',
+          text: 'Salin',
+          action: function (e, dt, node, config) {
+            copyTableDataToClipboard(tabl);
+          }
+        }],
+        data: [],
+        scrollY: "60dvh",
+        columns: [{
+            data: 'ko',
+            title: 'Kode Outlet',
+            render: (data, type, row, meta) => {
+              return `<div class="text-center">${data}</div>`
+            }
+          },
+          {
+            data: 'no',
+            title: 'Nama Outlet',
+            render: (data, type, row, meta) => {
+              return `<div class="text-center">${data}</div>`
+            }
+          },
+          {
+            data: 'ad',
+            title: 'Alamat',
+            render: (data, type, row, meta) => {
+              return `<div class="text-center">${data}</div>`
+            }
+          },
+          {
+            data: '',
+            title: 'Sub Rayon',
+            render: (data, type, row, meta) => {
+              return `<div class="text-center"></div>`
+            }
+          },
+          {
+            data: '',
+            title: 'Tipe Outlet',
+            render: (data, type, row, meta) => {
+              return `<div class="text-center">RETAIL</div>`
+            }
+          },
+          {
+            data: 'kb',
+            title: 'Kode Barang',
+            render: (data, type, row, meta) => {
+              return `<div class="text-center">${data}</div>`
+            }
+          },
+          {
+            data: 'nb',
+            title: 'Nama Barang',
+            render: (data, type, row, meta) => {
+              return `<div class="text-center">${data}</div>`
+            }
+          },
+          {
+            data: 'jb',
+            title: 'Jumlah Barang',
+            render: (data, type, row, meta) => {
+              return `<div class="d-none">${data}</div><input type="number" class="form-control" onchange="$(this).siblings('div').text($(this).val())" value=""> `
+            }
+          },
+        ]
+      });
+      let outl = {}
+      $('#select_retailer').select2({
+        placeholder: "Pilih Retailer:",
+        data: Object.keys(outlets.code).map(function (key) {
+          return {
+            id: key,
+            text: key + " - " + outlets.code[key]
+          }
+        })
+      })
+      $('#select_brand').select2({
+        placeholder: "Pilih Barang:",
+        multiple: true,
+        data: Object.keys(brands.name).map(function (key) {
+          return {
+            id: key,
+            text: brands.name[key] + " - " + key
+          }
+        })
+      })
+    });
+
+    window.WSP = {};
+    async function getPageContent(el) {
+      if (WAITVIEW) {
+        showToast("warning", "Sedang memuat data, mohon menunggu");
+        return;
+      }
+
+      let elem = $(el);
+      let url = elem.attr("data_url");
+      if (url == undefined || url == "" || url == "#") {
+        showToast("error", "Terjadi kesalahan, mohon refresh browser.");
+        return;
+      }
+      WAITVIEW = true;
+      LAST_EL = el;
+      ACTIVE_WINDOW = false;
+      PREV_WINDOW = 1;
+      CURRENT_WINDOW = 1;
+      NEXT_WINDOW = 2;
+      var DEFAULT_WINDOW_TRANSITION = "popup";
+      ACTIVE_WINDOW = false;
+      let ERR_PAGE = "";
+      let id = elem.attr("id");
+      moment.locale("id");
+      let loadingTimeout = setTimeout(() => {
+        if (LAST_ID) {
+          spinload(true);
+        }
+      }, 400);
+      await $.ajax({
+          url: "{{ url('') }}/" + url,
+          type: "GET",
+          dataType: "text",
+          timeout: 20000,
+        })
+        .done((rss) => {
+          delete WSP;
+          window.WSP = {};
+          elem.closest(".sidebar-menu").find("li").removeClass("active");
+          elem.closest("li.treeview").addClass("active");
+          elem.closest("li").addClass("active");
+          $("#v_content>*").remove();
+          $("#v_content").html(rss);
+          try {
+            load();
+          } catch (error) {}
+          if ($("#profil i").hasClass("text-primary")) {
+            $("#profil i").removeClass("text-primary");
+          }
+        })
+        .fail((rse) => {
+          console.log(rse);
+          ERR_PAGE = rse.responseText;
+          var iframe = document.createElement("iframe");
+          iframe.style.width = "100%";
+          iframe.style.height = "100vh";
+          iframe.srcdoc = ERR_PAGE;
+          $("#v_content").empty();
+          $("#v_content").append(iframe);
+        })
+        .always(() => {
+          clearTimeout(loadingTimeout);
+          spinload();
+          setTimeout(() => {
+            WAITVIEW = false;
+          }, 500);
+        });
+      if (LAST_ID != id) {
+        LAST_ID = id;
+        let page_title = $("title").text();
+        $.ajax({
+          url: "{{ route('set_userdata') }}",
+          data: {
+            _token: $('input[name="_token"]').val() == undefined ?
+              $('[name="_csrf-token"]').attr("content") : $('input[name="_token"]').val(),
+            data: JSON.stringify({
+              page_title: page_title,
+              page_id: id,
+            }),
+          },
+          type: "POST",
+        }).done((data) => {});
+      }
+    }
+
+    async function logout(el) {
+      let elem = $(el);
+      const {
+        data,
+        error
+      } = await $get(
+        "{{ route('logout_') }}",
+        elem,
+        false
+      );
+      if (error) {
+        showToast("error", "Terjadi kesalahan pada server");
+        return;
+      }
+      showToast("success", "Logout Berhasil");
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
+
+    function offCanvasOpen() {
+      $("body").addClass("offcanvas-open");
+      $("#offcanvas_full_screen").addClass("is-open");
+    }
+
+    function offCanvasClose() {
+      $("#offcanvas_full_screen").removeClass("is-open");
+      $("body").removeClass("offcanvas-open");
+      setTimeout(function () {
+        $("#offcanvas_full_screen").find(".offcanvas-body").html("");
+      }, 500);
+    }
+
+    async function offCanvas(title, body, callbackFn = false) {
+      if (typeof title == "function") {
+        title = await title($("#offcanvas_full_screen .offcanvas-header"));
+      } else {
+        $("#offcanvas_full_screen .offcanvas-header .offcanvas-title").html(
+          title
+        );
+      }
+      $("#offcanvas_full_screen .offcanvas-body").html(body);
+      if (callbackFn) {
+        await callbackFn(
+          $("#offcanvas_full_screen .offcanvas-header .offcanvas-title"),
+          $("#offcanvas_full_screen .offcanvas-body")
+        );
+      }
+      offCanvasOpen();
+      return $("#offcanvas_full_screen");
+      return $("#offcanvas_full_screen");
+    }
+
+    function pakoDecompressor(data, parseJson = true) {
+      if (!data) {
+        return [];
+      }
+      let decompressedData = "[]";
+      try {
+        let compressedBinary = atob(data.toString("base64"));
+        let charData = compressedBinary.split("").map(function (c) {
+          return c.charCodeAt(0);
+        });
+        let uint8Array = new Uint8Array(charData);
+        decompressedData = pako.inflate(uint8Array, {
+          to: "string",
+        });
+      } catch (error) {
+        showToast("error", "Terjadi kesalahan saat dekompress data");
+        console.log(error);
+      }
+      if (!parseJson) return decompressedData;
+      let jsonData = [];
+      try {
+        jsonData = JSON.parse(decompressedData);
+      } catch (error) {
+        showToast("error", "Terjadi kesalahan saat parsing data");
+        console.log(error);
+      }
+      return jsonData;
+    }
+
+    function preload(arg) {
+      if (arg && arg == "show") {
+        $("#preloaders").fadeIn();
+      } else if (arg && arg == "hide") {
+        $("#preloaders").fadeOut();
+      } else {
+        if ($("#preloaders").css("display", "block")) {
+          $("#preloaders").fadeOut();
+        } else {
+          $("#preloaders").fadeIn();
+        }
+      }
+    }
+
+    let loadMakerData = [];
+
+    function loadMaker(elem) {
+      if (elem.attr("loader-id") == undefined) {
+        elem.css("pointer-events", "none");
+        let loader_id = Math.random().toString(36).substr(2, 9);
+        loadMakerData[loader_id] = elem.find("i").clone();
+        elem
+          .find("i")
+          .replaceWith(
+            '<i class="fad fa-spinner fa-spin fa-pulse me-2"></i>'
+          );
+        elem.attr("loader-id", loader_id);
+      } else {
+        let loader_id = elem.attr("loader-id");
+        elem.find("i").replaceWith(loadMakerData[loader_id]);
+        delete loadMakerData[loader_id];
+        elem.removeAttr("loader-id");
+        elem.css("pointer-events", "auto");
+      }
+    }
+
+    function loading(show = false) {
+      if (show) {
+        $("#v_wrap").addClass("load");
+        return;
+      }
+      $("#v_wrap").removeClass("load");
+    }
+
+    function spinload(show = false) {
+      if (show) {
+        $("#v_wrap").addClass("spinload");
+        return;
+      }
+      $("#v_wrap").removeClass("spinload");
+    }
+
+    var dtable_lang_id = {
+      sProcessing: "Sedang memproses...",
+      sLengthMenu: "Tampilkan _MENU_ entri",
+      sZeroRecords: "Tidak ditemukan data yang sesuai",
+      sInfo: "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+      sInfoEmpty: "Menampilkan 0 sampai 0 dari 0 entri",
+      sInfoFiltered: "(disaring dari _MAX_ entri keseluruhan)",
+      sInfoPostFix: "",
+      sSearch: "Cari:",
+      sUrl: "",
+      oPaginate: {
+        sFirst: "Pertama",
+        sPrevious: "Sebelumnya",
+        sNext: "Selanjutnya",
+        sLast: "Terakhir",
+      },
+    };
+    var dtableBtnDefault = [{
+        extend: "copy",
+        text: '<i class="me-2"></i><span>Salin</span>',
+        exportOptions: {
+          columns: [":visible"],
+          header: false
+        },
+      },
+      {
+        extend: "excel",
+        text: '<i class="me-2"></i><span>Excel</span>',
+        exportOptions: {
+          columns: [":visible"],
+        },
+      },
+      {
+        extend: "print",
+        text: '<i class="me-2"></i><span>Cetak</span>',
+        exportOptions: {
+          columns: [":visible"],
+        },
+      },
+    ];
+
+    var dtableSettingsDefault = {
+      search: {
+        regex: true,
+      },
+      paging: true,
+      lengthChange: false,
+      searching: true,
+      ordering: true,
+      info: true,
+      autoWidth: false,
+      scrollY: "46dvh",
+      scrollX: true,
+      scrollCollapse: false,
+      responsive: false,
+      scroller: true,
+      language: dtable_lang_id,
+      dom: "Bfrti",
+      buttons: dtableBtnDefault,
+      destroy: true,
+    };
+    var ACTIVE_WINDOW = false;
+    var PREV_WINDOW = 1;
+    var CURRENT_WINDOW = 1;
+    var NEXT_WINDOW = 2;
+    var DEFAULT_WINDOW_TRANSITION = "popup";
+
+    function prevW() {
+      if (PREV_WINDOW === CURRENT_WINDOW) return;
+      gotoW(CURRENT_WINDOW, PREV_WINDOW, 1, DEFAULT_WINDOW_TRANSITION);
+    }
+
+    function gotoW(
+      currentSelector = 1,
+      nextSelector = 2,
+      type = 0,
+      transition = "popup"
+    ) {
+      const $currentWindow = $(`[window="${currentSelector}"]`);
+      const $nextWindow = $(`[window="${nextSelector}"]`);
+      if (transition == "slide") {
+        switchWindowTr($currentWindow, $nextWindow, type);
+      } else if (transition == "flip") {
+        switchWindowFl($currentWindow, $nextWindow, type);
+      } else if (transition == "popup") {
+        switchWindowPopUp($currentWindow, $nextWindow, type);
+      }
+    }
+
+    function switchWindowTr($currentWindow, $nextWindow, type) {
+      if ($nextWindow.hasClass("active")) return;
+      let inTranslate = "-100%";
+      let outTranslate = "100%";
+      if (type == 1) {
+        inTranslate = "100%";
+        outTranslate = "-100%";
+      }
+      anime({
+        targets: $currentWindow[0],
+        translateX: inTranslate,
+        duration: 500,
+        opacity: 0,
+        easing: "easeInOutExpo",
+      });
+      anime({
+        targets: $nextWindow[0],
+        translateX: [outTranslate, 0],
+        opacity: 1,
+        duration: 500,
+        easing: "easeInOutExpo",
+        begin: function () {
+          $nextWindow.addClass("active");
+        },
+        complete: function () {
+          $currentWindow.removeClass("active");
+          ACTIVE_WINDOW = $nextWindow.attr("window");
+          PREV_WINDOW = CURRENT_WINDOW;
+          CURRENT_WINDOW = $nextWindow.attr("window");
+        },
+      });
+    }
+
+    function switchWindowPopUp($currentWindow, $nextWindow, type) {
+      if ($nextWindow.hasClass("active")) return;
+      let startScale = 0.9;
+      let endScale = 1;
+
+      if (type == 0) {
+        startScale = 1.5;
+      }
+
+      // $nextWindow.css({
+      // opacity: 0.1,
+      // // transform: `scale(${startScale})`
+      // });
+
+      anime({
+        targets: $currentWindow[0],
+        opacity: 0,
+        scale: startScale,
+        duration: 300,
+        easing: "easeInOutExpo",
+        complete: function () {
+          $currentWindow.removeClass("active");
+        },
+      });
+      anime({
+        targets: $nextWindow[0],
+        opacity: 1,
+        scale: endScale,
+        duration: 300,
+        easing: "easeInOutExpo",
+        begin: function () {
+          $nextWindow.addClass("active");
+        },
+        complete: function () {
+          $currentWindow.removeClass("active");
+          ACTIVE_WINDOW = $nextWindow.attr("window");
+          PREV_WINDOW = CURRENT_WINDOW;
+          CURRENT_WINDOW = $nextWindow.attr("window");
+        },
+      });
+    }
+
+    function switchWindowFl($currentWindow, $nextWindow, type) {
+      if ($nextWindow.hasClass("active")) return;
+      // Set up different rotation directions for 'prev' and 'next' transitions
+      let outRotation = "180deg";
+      let inRotation = "-180deg";
+      if (type == 1) {
+        outRotation = "-180deg";
+        inRotation = "180deg";
+      }
+
+      // Animate current window flipping out
+      anime({
+        targets: $currentWindow[0],
+        rotateY: outRotation, // Rotate outwards
+        duration: 600,
+        opacity: 0,
+        easing: "easeInOutExpo",
+        complete: function () {
+          $currentWindow.hide().removeClass("active");
+        },
+      });
+
+      // Prepare the next window for the flip animation
+      $nextWindow.css({
+        display: "block",
+        opacity: 0,
+        transform: `rotateY(${inRotation})`, // Start with the opposite rotation
+      });
+
+      // Animate next window flipping in
+      anime({
+        targets: $nextWindow[0],
+        rotateY: "0deg", // Rotate into view
+        duration: 600,
+        opacity: 1,
+        easing: "easeInOutExpo",
+        begin: function () {
+          $nextWindow.addClass("active");
+        },
+        complete: function () {
+          $currentWindow.removeClass("active");
+          ACTIVE_WINDOW = $nextWindow.attr("window");
+          PREV_WINDOW = CURRENT_WINDOW;
+          CURRENT_WINDOW = $nextWindow.attr("window");
+        },
+      });
+    }
+
+    async function $get(url, elem = false, compressed = true, $form = false) {
+      if (elem) loadMaker(elem);
+      let datas = {};
+      let error = false;
+      await $.ajax({
+          url: url,
+          type: "GET",
+          data: $form ? $form.serialize() : null,
+          dataType: "text",
+          timeout: 20000,
+        })
+        .done((rss) => {
+          if (compressed == true) {
+            datas = pakoDecompressor(rss);
+          } else {
+            datas = rss;
+          }
+        })
+        .fail((rse) => {
+          let iframe = document.createElement("iframe");
+          iframe.style.width = "100%";
+          iframe.style.height = "100vh";
+          iframe.srcdoc = rse.responseText;
+          $("#v_content").empty();
+          $("#v_content").append(iframe);
+          showToast("error", "Terjadi kesalahan pada server");
+          error = rse;
+        })
+        .always(() => {
+          if (elem) loadMaker(elem);
+        });
+      return {
+        data: datas,
+        error: error,
+      };
+    }
+    async function $del(url, elem = false, compressed = true, $form = false) {
+      if (elem) loadMaker(elem);
+      let datas = {};
+      let error = false;
+      await $.ajax({
+          url: url,
+          type: "DELETE",
+          data: $form ? $form.serialize() : null,
+          dataType: "text",
+          timeout: 20000,
+        })
+        .done((rss) => {
+          if (compressed == true) {
+            datas = pakoDecompressor(rss);
+          } else {
+            datas = rss;
+          }
+        })
+        .fail((rse) => {
+          showToast("error", "Terjadi kesalahan pada server");
+          error = rse;
+        })
+        .always(() => {
+          if (elem) loadMaker(elem);
+        });
+      return {
+        data: datas,
+        error: error,
+      };
+    }
+
+    async function $post(url, data, elem = false, opts = {}) {
+      let loadingTimeout = false;
+      if (elem) {
+        if (typeof elem === "function") {
+          loadingTimeout = setTimeout(elem(true), 400);
+        } else {
+          loadMaker(elem);
+        }
+      }
+      let dataz = {};
+      let error = false;
+      let options = {
+        ...opts,
+        url: url,
+        type: "POST",
+        data: data,
+        timeout: 20000,
+        dataType: "json",
+      };
+      await $.ajax(options)
+        .done((rss) => {
+          dataz = rss;
+        })
+        .fail((rse) => {
+          error = rse;
+        })
+        .always(() => {
+          if (elem) {
+            if (typeof elem === "function") {
+              clearTimeout(loadingTimeout);
+              elem(false);
+            } else {
+              loadMaker(elem);
+            }
+          }
+        });
+      return {
+        data: dataz,
+        error: error,
+      };
+    }
+
+    // flatpickr.localize(flatpickr.l10ns.id);
+
+    async function fs(el) {
+      event.stopPropagation();
+      let elem = $(el);
+      let val = $("#title_header").hasClass("expand") ? "" : "expand";
+      let form = {
+        _token: $('input[name="_token"]').val() == undefined ?
+          $('[name="_csrf-token"]').attr("content") : $('input[name="_token"]').val(),
+        data: JSON.stringify({
+          title_header: val,
+        }),
+      };
+      const {
+        data,
+        error
+      } = await $post(
+        "{{ route('set_userdata') }}",
+        form
+      );
+      if (error) {
+        showToast("error", "Terjadi kesalahan pada server");
+        return;
+      }
+      $("#title_header").toggleClass("expand");
+    }
+
+    function switchThemeCallback(el) {}
+
+    var THEMEWAIT = false;
+
+    async function switchTheme(el) {
+      event.stopPropagation();
+      if (THEMEWAIT) return;
+      THEMEWAIT = true;
+      let elem = $(el);
+      let bd = "";
+      if ($("body").hasClass("dark-skin")) {
+        $("body").removeClass("dark-skin").addClass("light-skin");
+        bd = "light-skin";
+      } else {
+        $("body").removeClass("light-skin").addClass("dark-skin");
+        bd = "dark-skin";
+      }
+      await $.ajax({
+        url: "{{ route('set_userdata') }}",
+        data: {
+          _token: $('input[name="_token"]').val() == undefined ?
+            $('[name="_csrf-token"]').attr("content") : $('input[name="_token"]').val(),
+          data: JSON.stringify({
+            theme: bd,
+          }),
+        },
+        type: "POST",
+      }).done((data) => {});
+      THEMEWAIT = false;
+      switchThemeCallback(bd, el);
+    }
+
+    function barcenter(message) {
+      $("#bar_center").html(message);
+    }
+
+    function bcm(newTitle) {
+      if (newTitle == "") return;
+      $("title").text(newTitle);
+      setTimeout(() => {
+        const pageTitleWrapper = document.querySelector("#page_title");
+        const bcmTitleWrapper = document.querySelector("#bcm_title");
+        pageTitleWrapper.innerHTML = newTitle.replace(
+          /\S/g,
+          "<span class='letter'>$&</span>"
+        );
+        bcmTitleWrapper.innerHTML = newTitle.replace(
+          /\S/g,
+          "<span class='letter'>$&</span>"
+        );
+        anime
+          .timeline({
+            loop: false,
+          })
+          .add({
+            targets: "#page_title .letter, #bcm_title .letter",
+            opacity: [0, 1],
+            translateY: ["1.1em", 0],
+            duration: 750,
+            delay: (el, i) => 50 * i,
+            easing: "easeInOutSine",
+          });
+      }, 500);
+    }
+
+    function showToast(type, title, timer = 3000) {
+      let swalTimer = timer;
+      if (timer && timer > 0) {
+        const fadeOutDuration = 1000;
+        swalTimer = timer + fadeOutDuration;
+      }
+      Swal.fire({
+        title: title,
+        icon: type,
+        toast: true,
+        timer: swalTimer,
+        showConfirmButton: false,
+        position: "top",
+        didOpen: (toast) => {
+          if (timer && timer > 0) {
+            setTimeout(() => {
+              $(toast).addClass("swal2-hidden");
+            }, timer);
+          }
+        },
+      });
+    }
+
+    // window.addEventListener("load", function () {
+    //   $(".select2").css("width", "100%");
+    //   $(".select2").each(function () {
+    //     $(this).select2({
+    //       dropdownParent: $(this).parent(),
+    //     });
+    //   });
+    //   var Scrollbar = window.Scrollbar;
+    //   try {
+    //     Scrollbar.init($(".multinav-scroll").get(0));
+    //   } catch (error) {}
+    //   $(".side-menu").each(function () {
+    //     tippy(this, {
+    //       content: $(this).attr("title"),
+    //       allowHTML: true,
+    //       arrow: true,
+    //       delay: 300,
+    //     });
+    //   });
+    // });
+
+    let scrollTimeout;
+    $("#main_wrappers").on("scroll", function () {
+      $("#main_wrappers").removeClass("scroll_hidden");
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function () {
+        $("#main_wrappers").addClass("scroll_hidden");
+      }, 2000);
+      let trs = $("#main_wrappers").scrollTop() / 2;
+      $("#header_bg").css("transform", `translateY(-${trs}px)`);
+    });
+
+    function switchSidebar(el) {
+      event.stopPropagation();
+      let elem = $(el);
+      let sd = "";
+      if ($("body").hasClass("sidebar-collapse")) {
+        $("body").removeClass("sidebar-collapse");
+        sd = " ";
+      } else {
+        $("body").addClass("sidebar-collapse");
+        sd = "sidebar-collapse";
+      }
+      $.ajax({
+        url: "{{ route('set_userdata') }}",
+        data: {
+          _token: $('input[name="_token"]').val() == undefined ?
+            $('[name="_csrf-token"]').attr("content") : $('input[name="_token"]').val(),
+          data: JSON.stringify({
+            sidebar: sd,
+          }),
+        },
+        type: "POST",
+      }).done((data) => {});
+    }
+
+    async function getView(view, section = false, elem) {
+      let v = view;
+      let r = {
+        css: "",
+        content: "",
+        js: "",
+      };
+      if (section && section != "/" && section != "") {
+        v = view + "/" + section;
+      }
+      const {
+        data,
+        error
+      } = await $get(
+        "{{ asset('') }}viewcontroller/viewrenderer/" + v,
+        elem
+      );
+      if (section) {
+        return pakoDecompressor(data[section], false);
+      }
+      try {
+        r.css = pakoDecompressor(data.css, false);
+        r.content = pakoDecompressor(data.content, false);
+        r.js = pakoDecompressor(data.js, false);
+      } catch (error) {}
+      return r;
+    }
+
+    function $modal(args, backdrop = false, lg = false) {
+      let modal = $(".w-modal");
+      let template = $("#modalTemplate .modal-dialog").clone();
+      if (args) {
+        let {
+          title = "", body = "", footer = "", callback = false
+        } = args;
+        template.find(".modal-title").html(title);
+        template.find(".modal-body").html(body);
+        template.find(".modal-footer").html(footer);
+        modal.html(template);
+        if (callback && typeof callback == "function") callback(modal);
+        if (backdrop) modal.addClass("backdrop");
+        if (lg) modal.find(".modal-dialog").addClass("modal-lg");
+        modal.find(".modal-dialog").click((e) => {
+          e.stopPropagation();
+        });
+        modal.addClass("show");
+      }
+      return $(".w-modal");
+    }
+
+    function closeModal(force = false) {
+      let modal = $(".w-modal");
+      if (modal.hasClass("backdrop") && !force) {
+        modal.find(".modal-dialog").addClass("animated headShake");
+        setTimeout(() => {
+          modal.find(".modal-dialog").removeClass("animated headShake");
+        }, 400);
+        return;
+      }
+      modal.removeClass("show");
+      setTimeout(() => {
+        modal.removeClass("backdrop");
+        modal.empty();
+      }, 400);
+    }
+  </script>
+</body>
+
+</html>
