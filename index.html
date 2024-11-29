@@ -517,11 +517,11 @@
       });
       let outl = {}
       $('#select_retailer').select2({
-        placeholder: "Pilih Retailer:",
+        placeholder: "Pilih Outlet:",
         data: Object.keys(outlets.code).map(function (key) {
           return {
             id: key,
-            text: key + " - " + outlets.code[key]
+            text: key + " - " + outlets.code[key]+" - " + outlets.addr[key]
           }
         })
       })
