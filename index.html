@@ -1,89 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Retailer</title>
-    <link rel="stylesheet" href="css/air-datepicker.css" />
-    <link rel="stylesheet" href="css/bs.css" />
-    <link rel="stylesheet" href="css/datatables.min.css" />
-    <link rel="stylesheet" href="css/select2.4.1.0.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="js/jquery.3.3.1.min.js"></script>
-    <script src="js/air-datepicker.js"></script>
-    <script src="js/datatables.min.js"></script>
-    <script src="js/moment.min.js"></script>
-    <script src="js/select2.4.1.0.js"></script>
-    <script src="js/swal2.11.14.js"></script>
-    <style>
-      #tbl2 thead th::before {
-    content: '';
-    width: 10px;
-    height: 12px;
-    background-color: #00000000;
-    position: absolute;
-    top: -48px;
-    right: 2px;
-    rotate: 140deg;
-    border-right: solid 2px black;
-}
-#tbl2 thead{
-  transform: translateX(50px);
-}
-    </style>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Retailer</title>
+  <link rel="stylesheet" href="css/air-datepicker.css" />
+  <link rel="stylesheet" href="css/bs.css" />
+  <link rel="stylesheet" href="css/datatables.min.css" />
+  <link rel="stylesheet" href="css/select2.4.1.0.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/jquery.3.3.1.min.js"></script>
+  <script src="js/air-datepicker.js"></script>
+  <script src="js/datatables.min.js"></script>
+  <script src="js/moment.min.js"></script>
+  <script src="js/select2.4.1.0.js"></script>
+  <script src="js/swal2.11.14.js"></script>
+  <style>
+    #tbl2 thead th::before {
+      content: '';
+      width: 10px;
+      height: 12px;
+      background-color: #00000000;
+      position: absolute;
+      top: -48px;
+      right: 2px;
+      rotate: 140deg;
+      border-right: solid 2px black;
+    }
 
-  <body>
+    #tbl2 thead {
+      transform: translateX(50px);
+    }
 
-    <h2 class="text-center">Retailer</h2>
-    <div class="card m-3">
-      <div class="card-body">
-        <div class="row mb-3">
-          <div class="col-6">
-            <label for="select_retailer" class="form-label">Pilih Outlet</label>
-            <select name id="select_retailer" class="form-select"></select>
-          </div>
-          <div class="col-6">
-            <label for="jumlah" class="form-label">Jumlah Baris</label>
-            <input type="number" name="jumlah" id="jumlah" class="form-control"
-              value="1">
-          </div>
-          <div class="col-9 d-none">
-            <label for="select_brand" class="form-label">Pilih Barang</label>
-            <select name id="select_brand" class="form-select"></select>
-          </div>
-          <div class="d-flex justify-content-end">
-            <button onclick="reset()"
-              class="btn btn-sm btn-danger my-2 me-4">Reset</button>
-            <button onclick="proses()"
-              class="btn btn-sm btn-primary my-2">Proses</button>
+    .fpb {
+      width: 50px;
+    }
+
+    .fpl {
+      width: 50px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2 class="text-center">Retailer</h2>
+  <div class="card m-3">
+    <div class="card-body">
+      <div class="row mb-3 justify-content-end">
+        <div class="col-6">
+          <label for="select_retailer" class="form-label">Pilih Outlet</label>
+          <select name id="select_retailer" class="form-select"></select>
+        </div>
+        <div class="col-6">
+          <label for="jumlah" class="form-label">Jumlah Baris</label>
+          <input type="number" name="jumlah" id="jumlah" class="form-control" value="1">
+        </div>
+        <div class="col-9 d-none">
+          <label for="select_brand" class="form-label">Pilih Barang</label>
+          <select name id="select_brand" class="form-select"></select>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button onclick="reset()" class="btn btn-sm btn-danger my-2 me-4">Reset</button>
+          <button onclick="proses()" class="btn btn-sm btn-primary my-2">Proses</button>
+        </div>
+      </div>
+      <div class="row justify-content-start mb-3 " id="navigate">
+        <div class="col-1 d-flex align-items-end pb-4">
+          <div class="d-block mb-4">
+            <label for="search" class="form-label me-2">Cari</label>
+            <input type="search" name="search" id="search" class="form-control vis" value>
           </div>
         </div>
-        <div class="table-responsive">
-          <table id="tbl2" class="table table-bordered table-hover">
-            <thead></thead>
-            <tbody>
-            </tbody>
-          </table>
+        <div class="col-11">
+          <div class="table-responsive">
+            <table id="tbl2" class="table table-bordered table-hover">
+              <thead></thead>
+              <tbody></tbody>
+              <tfoot></tfoot>
+            </table>
+          </div>
         </div>
-        <div class="table-responsive">
-          <table id="datatable" class="table table-bordered table-hover">
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-        <div class="py-5"><hr></div>
+      </div>
+      <div class="table-responsive">
+        <table id="datatable" class="table table-bordered table-hover">
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="py-5">
+        <hr>
       </div>
     </div>
+  </div>
 
-    <script>
-
-function reset (){
-  $('#tbl2 thead').html('');
-  $('#tbl2 tbody').html('');
-  tabl.clear().draw();
-};
+  <script>
+    function reset() {
+      $('#search').val('');
+      $('#tbl2 thead').html('');
+      $('#tbl2 tbody').html('');
+      tabl.clear().draw();
+    };
 
     var outlets = {
       code: {
@@ -192,7 +210,7 @@ function reset (){
         "VERA": "S01984",
         "VRESS MART": "",
         "YUKI": ""
-    },
+      },
       addr: {
         "ANUGERAH": "JL. Marelan Raya",
         "ASIA BEST": "Zein Hamid",
@@ -299,7 +317,7 @@ function reset (){
         "VERA": "JL. Bungalau",
         "VRESS MART": "JL. Adi Sucipto",
         "YUKI": "Thamrin"
-    }
+      }
     }
     var brands = {
       name: {
@@ -317,11 +335,11 @@ function reset (){
         "L00036": "LASEGAR SLIM LECI",
         "L00035": "LASEGAR SLIM JERUK",
         "L00020": "LASEGAR PLUS DUS ORANGE",
-        "00":"-",
+        "00": "-",
 
         "B00015": "BALSEM 20GR",
         "B00016": "BALSEM 36GR",
-        "0000":"Enao Slim",
+        "0000": "Enao Slim",
         "Z00001": "LIANG THE CAP BADAK ",
         "A00001": "ACARAKI",
         "P00001": "PILCHIKIT",
@@ -331,8 +349,8 @@ function reset (){
         "S00002": "SPO 3ML",
         "S00003": "SPO 7ML",
         "S00004": "SPO 25ML",
-        "0001":"Salep Kulit",
-        "000":"-",
+        "0001": "Salep Kulit",
+        "000": "-",
 
         "M00016": "MILKBARN SACHET",
         "M00013": "MILK KALENG 370 GR",
@@ -349,10 +367,10 @@ function reset (){
         "E00010": "ENAKI",
         "O00020": "OISHIYORI CINCAU 270ML",
         "O00021": "OISHIYORI WALET 270ML",
-        "0001z":"Ex Goal Orange",
-        "00012":"Ex Goal Cola",
-        "00013":"Ex Goal S Parilla",
-        "00014":"Ex Goal Straw",
+        "0001z": "Ex Goal Orange",
+        "00012": "Ex Goal Cola",
+        "00013": "Ex Goal S Parilla",
+        "00014": "Ex Goal Straw",
         "L00046": "LARISTA LATTE",
         "L00047": "LARISTA CAPPUCCINO",
         "L00048": "LARISTA MOCHA",
@@ -500,22 +518,22 @@ function reset (){
       };
     };
 
-    function refreshTbl (){
+    function refreshTbl() {
       let jumlah = $('#jumlah').val();
       let outl = getR();
       let tableContent = []
-     $('#tbl2 tbody input').map(function (idx,el) {
-      if($(el).val()!=0||$(el).val()!=""){
-        let brcode = $(el).attr("data-code");
-        tableContent.push({
-          "ko": outl.code,
-          "no": outl.name,
-          "ad": outl.address,
-          "kb": brcode,
-          "nb": brands.name[brcode],
-          "jb": $(el).val()
-        })
-      }
+      $('#tbl2 tbody input').map(function (idx, el) {
+        if ($(el).val() != 0 || $(el).val() != "") {
+          let brcode = $(el).attr("data-code");
+          tableContent.push({
+            "ko": outl.code,
+            "no": outl.name,
+            "ad": outl.address,
+            "kb": brcode,
+            "nb": brands.name[brcode],
+            "jb": $(el).val()
+          })
+        }
       }).get();
       tabl.clear().rows.add(tableContent).draw();
     };
@@ -525,39 +543,86 @@ function reset (){
       let outl = getR();
       let tableContent = ''
       let thead = ''
-      for (const[key, value] of Object.entries(brands.name)) {
-          thead += `<th style="writing-mode:vertical-rl;rotate:220deg" class="text-start">${value}</th>`
-        }
-        $('#tbl2 thead').html(thead)
-      for(let i = 0; i < jumlah; i++){
+      let tfoot = ''
+      for (const [key, value] of Object.entries(brands.name)) {
+        thead += `<th style="writing-mode:vertical-rl;rotate:220deg" class="text-start">${value}</th>`
+      }
+      for (const [key, value] of Object.entries(brands.name)) {
+        tfoot += `<td><span class="fpl">-</span></td>`
+      }
+      $('#tbl2 thead').html(thead)
+      $('#tbl2 tfoot').html(tfoot)
+      for (let i = 0; i < jumlah; i++) {
         console.log(jumlah);
         tableContent += `<tr>`
-        for (const[key, value] of Object.entries(brands.name)) {
-          tableContent += `<td style="padding:2px"><input title="${value}" type="text" data-code="${key}" value="" style="min-width:50px" class="form-control"></td>`
+        for (const [key, value] of Object.entries(brands.name)) {
+          tableContent +=
+            `<td style="padding:2px"><input title="${value}" type="text" data-code="${key}" value=""  class="form-control fpb"></td>`
         }
         tableContent += `</tr>`
       }
       $('#tbl2 tbody').html(tableContent)
+      navigator()
     };
+
+    function navigator() {
+      $('#navigate').on('keydown', function (e) {
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault(); // Prevent default behavior, like scrolling
+
+          const inputs = $('input.vis', this);
+          const currentIndex = inputs.index(document.activeElement);
+
+          let nextIndex;
+          if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+            // Move to the previous input
+            nextIndex = currentIndex > 0 ? currentIndex - 1 : inputs.length - 1;
+          } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+            // Move to the next input
+            nextIndex = currentIndex < inputs.length - 1 ? currentIndex + 1 : 0;
+          }
+
+          inputs.eq(nextIndex).focus();
+        }
+      });
+    };
+
     window.addEventListener("load", function (e) {
+      $('#search').on('keyup search', function (e) {
+        let value = $(this).val();
+        $('#tbl2 thead th').each(function (index) {
+          let v = value.replace(/\s/g, "");
+          if ($(this).text().toLowerCase().replace(/\s/g, "").indexOf(v.toLowerCase()) >= 0) {
+            $(this).removeClass('d-none');
+            $('#tbl2 tbody td').eq(index).removeClass('d-none');
+            $('#tbl2 tbody td input').eq(index).addClass('vis');
+          } else {
+            $(this).addClass('d-none');
+            $('#tbl2 tbody td').eq(index).addClass('d-none');
+            $('#tbl2 tbody td input').eq(index).removeClass('vis');
+          }
+        })
+      });
+
       tabl = $('#datatable').DataTable({
         ...dtableSettingsDefault,
         buttons: [{
-          extend: '',
-          text: 'Salin',
-          className: 'btn btn-primary btn-sm',
-          action: function (e, dt, node, config) {
-            copyTableDataToClipboard(tabl);
+            extend: '',
+            text: 'Salin',
+            className: 'btn btn-primary btn-sm',
+            action: function (e, dt, node, config) {
+              copyTableDataToClipboard(tabl);
+            }
+          },
+          {
+            extend: '',
+            text: 'Refresh',
+            className: 'btn btn-primary btn-sm',
+            action: function (e, dt, node, config) {
+              refreshTbl();
+            }
           }
-        },
-        {
-          extend: '',
-          text: 'Refresh',
-          className: 'btn btn-primary btn-sm',
-          action: function (e, dt, node, config) {
-            refreshTbl();
-          }
-        }],
+        ],
         data: [],
         scrollY: "55dvh",
         columns: [{
@@ -624,7 +689,7 @@ function reset (){
         data: Object.keys(outlets.code).map(function (key) {
           return {
             id: key,
-            text: key + " - " + outlets.code[key]+" - " + outlets.addr[key]
+            text: key + " - " + outlets.code[key] + " - " + outlets.addr[key]
           }
         })
       })
@@ -1417,6 +1482,6 @@ function reset (){
       }, 400);
     }
   </script>
-  </body>
+</body>
 
 </html>
